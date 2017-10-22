@@ -337,7 +337,7 @@ GetSubMatrix(), GetElement() and SetElement 함수를 호출하는 것에 주목
 ### 2.2.4 Calling the kernel
 
 
-위에 주어진 MatMulKernel () 커널의 커널은 __syncthreads() 호출을 사용합니다. 하나의 어떤 스레드가 __syncthreads() 가 호출할때. 그 thread의 block안의 모든 스레드는 이 포인트 전까지 계산이 끝나야 하고 더이상의 진행이 허락되지 않는다. (마치 군대의 행진에서.. sub군대? 각 부대가 다함께 움직이는 것을 상상해보자.) __syncthreads()를 처음 호출함과 함께 우리는 submatices A,B의 모든 entry들이 shared-memory에 load되었다는 것을 알 수 있다. (이 sync는 block 단위로 진행되는 것..?인 것 같다.) 두번째 __syncthreads() 호출은 C의 submatrix이 처음의 submarix A,B를 가지고 잘 계산이 되었다는 것을 보장한다. 참고로 __syncthreads()는 이러한 스레드간의 동기화를 가능하게 하지만 사용시 병렬화를 최소화 함으로 성능저하가 일어날 수 있습니다.  
+위에 주어진 MatMulKernel () 커널의 커널은 __syncthreads() 호출을 사용합니다. 하나의 어떤 스레드가 __syncthreads() 가 호출할때. 그 thread의 block안의 모든 스레드는 이 포인트 전까지 계산이 끝나야 하고 더이상의 진행이 허락되지 않는다. (마치 군대의 행진에서.. sub군대? 각 부대가 다함께 움직이는 것을 상상해보자. 그리고 각 부대는.. 각 분대로 나눠져 행진을 한다. 어떤 step 이전에 부대는 분대가 일을 끝마쳣는지를 확인한다. 그후 다음 일을 진행!!) __syncthreads()를 처음 호출함과 함께 우리는 submatices A,B의 모든 entry들이 shared-memory에 load되었다는 것을 알 수 있다. (이 sync는 block 단위로 진행되는 것..?인 것 같다.) 두번째 __syncthreads() 호출은 C의 submatrix이 처음의 submarix A,B를 가지고 잘 계산이 되었다는 것을 보장한다. 참고로 __syncthreads()는 이러한 스레드간의 동기화를 가능하게 하지만 사용시 병렬화를 최소화 함으로 성능저하가 일어날 수 있습니다.  
 
 ```
 void MatMul(const Matrix A, const Matrix B, Matrix C) \{

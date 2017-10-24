@@ -25,4 +25,49 @@ hill climbing : gradient descent는 continuous space에서 동작하도록 제�
 
 우리가 딥러닝에서 다루는 대부분의 함수들은 symmetric Hessian almost every where 이다. 이 때문에 eigen value가 2차 미분의 크기를 결정한다. 
 
-헤시안을 가지고 특정 방향의 2차 미분을 나타내기 위해선 <img src="http://www.sciweavers.org/upload/Tex2Img_1508822888/render.png" />
+헤시안을 가지고 특정 방향의 2차 미분을 나타내기 위해선 <img src="http://www.sciweavers.org/upload/Tex2Img_1508822888/render.png" /> 을 통해 나타낼 수 있다. 여기서 d가 eigen vector 라면 그 방향으로의 2차미분은 egienvalue와 같게 된다. 고유벡터가 아닌 일반적인 방향의 d라고 하면 그 방향의 2차 미분은 eigenvalue의 weighted average가 된다. 
+
+이 때문에 maximum eigenvalue는 maximum 이차미분을 결정하고 minimum도 같다.
+
+second derivative test 
+
+critical point : f\`(x) = 0  (local minimum or saddle point)  
+saddle point or flat region : f\`\`(x) = 0  
+local minimum : f\`\`(x) > 0 , f\`(x) = 0 
+ 
+ 위의 수식의 의미는 2차미분이 양수이므로 x의 변화가 항상 생긴다는 뜻이다. 즉 
+f\`(x − e) < 0 and f\`(x + e) > 0 가 된다는 뜻이다. (x를 약간 감소시키면 1차미분은 감소하고 x가 증가하면 1차미분은 증가해야한다.) 다른 말로 하면 x를 증가시키면 기울기가 그 포인트부터 right-uphill이 되고 x를 감소시키면 기울기가 그 점에서부터 left-uphill 이 된다는 의미이다.
+
+다변량에서의 second derivative test
+
+critical point : ∇xf(x) = 0
+local minimum : ∇xf(x) = 0, H is positive definite(all eigenvlaue are positive)  
+saddle point : 적어도 하나의 eigenvalue는 양수이고 적어도 하나의 eigenvalue가 음수
+
+
+Hessian의 condition number(maximum |eigenvalue| / minimum  |eigenvalue|) 는 이차 미분이 서로 얼마나 다른지를 말해준다. (condition number가 5라면.. 어느 방향과 다른 방향과의 곡률의 차이가 5배가 난다는 뜻)Hessian이 poor condition number 일때는 gradient descent가 멍청하게 동작한다 이는 어떤 방향에서는 미분이 빠르게 증가하고 다른 방향에서는 천천히 증가하기 때문이다. 
+
+gradient descent는 이떤 방향에서는 빠르고, 느린지에 대한 정보를 알지 못하기 때문에 나쁘게 동작한다. 이는 좋은 learning rate를 정하기도 어렵게 한다. 이는 Hessian 매트릭스의 정보를 활용하여 해결 할 수 있다.
+
+saddle point를 어느 축에서는 local-maximum 다른 축에서는 local-minimum인 점으로 볼 수 있다.
+
+뉴턴메소드는 근처의 critical point가 minimum 일때 적절하고 gradient descent는 saddle point에 잘 빠지지 않는다. (뉴턴 메소드는 saddle point에 빠지는 경우가 많다. 근데 딥러닝은 매우 많은 saddle point를 가지고 있다고 알려져 있음)
+
+gradient-method, newton's-method 는 다양한 함수에 적용 할 수 있지만 수렴한다는 보장이 있지는 않다. 딥러닝이 아닌 다른 분야에서는 알고리즘을 제한하여 수렴성을 보장 하도록 한다.
+
+딥러닝에서는 Lipschitz continuous 하다면 수렴성이 보장된다.
+
+∀x,∀y,|f(x) − f(y)| ≤ L||x − y||
+
+이는 input의 작은 변화가 있을때 output도 작은 변화만 있다는 것을 보장해 준다.
+
+
+### 4.4 Constrained Optimization
+
+1, gradient-descent 안에 제약조건을 넣는방법 
+
+gradient descent step을 하고 제약 조건 안으로 다시 매핑하는 방법
+
+2, constrained optimization problem 
+
+Lagrangian을 이용하는 방법

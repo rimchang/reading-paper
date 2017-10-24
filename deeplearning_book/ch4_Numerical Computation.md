@@ -1,6 +1,3 @@
-<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
-
-
 # Numerical Computation
 
 ### 4.1 Overflow and Underflow
@@ -28,4 +25,4 @@ hill climbing : gradient descent는 continuous space에서 동작하도록 제�
 
 우리가 딥러닝에서 다루는 대부분의 함수들은 symmetric Hessian almost every where 이다. 이 때문에 eigen value가 2차 미분의 크기를 결정한다. 
 
-헤시안을 가지고 특정 방향의 2차 미분을 나타내기 위해선 <a href="https://www.codecogs.com/eqnedit.php?latex=\mathcal{W}(A,f)&space;=&space;(T,\bar{f})" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\mathcal{W}(A,f)&space;=&space;(T,\bar{f})" title="\mathcal{W}(A,f) = (T,\bar{f})" /></a>
+헤시안을 가지고 특정 방향의 2차 미분을 나타내기 위해선 <img src="http://www.sciweavers.org/upload/Tex2Img_1508822888/render.png" />

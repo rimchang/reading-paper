@@ -71,3 +71,14 @@ gradient descent step을 하고 제약 조건 안으로 다시 매핑하는 방�
 2, constrained optimization problem 
 
 Lagrangian을 이용하는 방법
+
+### 세미나 동영상
+https://www.youtube.com/watch?v=YHB2reIlNsI&index=5&list=PLsXu9MHQGs8cshZb3YUdtBhcu3LQp0Ax9
+
+Hessian은 symmetric하다. 근데 real, symmetric 이므로 정규직교고유벡터로 분해가 가능하다. 그래서 without loss of generality Hessian은 diagonal 하다고 할 수 있음
+
+뉴턴 메소드는
+
+x_i+1 = x_i -ef\`(x)H(X)
+
+H(x) 의 역할 rotating and rescaling it and rotating back

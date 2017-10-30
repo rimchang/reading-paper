@@ -55,7 +55,7 @@ conv network의 computaion을 공유하기 위해서 SGD 미니배치는 계층�
  
  <b>Background ROIS</b> ROI중 background라고 라벨링 되는 것은 gt box와의 IOU가 [0.1 , 0.5) 사이의 ROI들입니다. FRCN, SPPnet 에서 0.1을 low-backgorund threshold로 사용하였습니다. <span style="color:RED">FRCN 에서의 가정은 0.1 이라는 수치가 hard negative mining의 근사치라는 것입니다. 그들의 가정은 ground truth와 좀 겹치는 region이 더 hard, confusing example일 것이라는 것입니다. </span> 우리는 5.4 섹션에서 이러한 휴리스틱이 모델의 수렴과 accuract에 도움이 된다는 것을 보입니다. 하지만 이는 suboptimal 인데 왜냐하면 [0.1 0.5) 라는 수치는 많지는 않지만, 중요하고 어려운 background region을 무시하기 때문입니다. 우리의 방법은 low-backgorund threshold을 제거합니다. (0.1 을 low-threshold로 사용하기 때문에.. 사용되지 않는 background중에 중요한 애들이 있을 수 있기에 suboptimal일 뿐이라는 소리인듯)
 
- <b>Balancing fg-bg ROIS/b> fg-bg의 불균형을 다루기 위해 적용된 휴리스틱은 fg-bg를 1:3 비율로 rebalance하느 것입니다. 이때 background pathces를 랜덤으로 undersampling 합니다. 그래서 미니배치안의 25%가 fg ROI가 되도록 합니다. 우리는 이가 FRCN에서의 주요한 하이퍼 파라미터라는 것을 알아냈습니다. 이를 제거하거나 증가하면 map가 3% 가량 낮아졌습니다. 우리의 제안에서는 이러한 하이퍼파라미터를 제거할 수 있고 더이상 ill effect를 일으키기 않습니다.
+ <b>Balancing fg-bg ROIS/b> fg-bg의 불균형을 다루기 위해 적용된 휴리스틱은 fg-bg를 1:3 비율로 rebalance하느 것입니다. 이때 background pathces를 랜덤으로 undersampling 합니다. 그래서 미니배치안의 25%가 fg ROI가 되도록 합니다. 우리는 이가 FRCN에서의 주요한 하이퍼 파라미터라는 것을 알아냈습니다. 이를 제거하거나 증가하면 map가 3% 가량 낮아졌습니다. 우리의 제안에서는 이러한 하이퍼파라미터를 제거할 수 있고 더이상 ill effect를 일으키기 않습니다.</b>
  
  ### Our approach
  

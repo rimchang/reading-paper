@@ -32,7 +32,7 @@
 Alexnet 이후로 CNN은 최종의 예측을 위해 연속적인 레이어로 구성되어져 있습니다. 초기 레이어들이 edge와 같은 매우 기본적인 패턴을 찾고 그 이후의 레이어들은 더 깊어질 수록 높은 레벨의 개념을 찾습니다. 일반적인 레이어의 첫번째 층을 봄으로써 쉽게 확인 할 수 있습니다.
  
   
- <img src="https://devblogs.nvidia.com/parallelforall/deep-learning-computer-vision-caffe-cudnn/" />
+ <img src="https://devblogs.nvidia.com/parallelforall/wp-content/uploads/2014/10/caffenet_learned_filters.png" />
  
  위의 그림이 보여주는 것은 각 필터가 찾는 패턴을 보여줍니다. 몇몇은 다른 방향의 edge이며 색상, 모서리의 패턴을 찾습니다. 불행히도 첫번째 층 이후의 레이어들은 간단하게 시각화 할 수 없습니다. 그 이후의 레이어를 시각화 하고 싶다면 Jason Yosinski이나 다른 연구자의 연구를 찾아보세요
  
@@ -62,7 +62,7 @@ Alexnet 이후로 CNN은 최종의 예측을 위해 연속적인 레이어로 �
  
  정리 CNN이 postion invariant 한 이유
  
- 1, data argument : 데이터 argu를 통해 다양한 위치에서의 객체를 네트워크가 배울 수 있게 한다.
+ 1, data argument : 데이터 argu를 통해 다양한 위치에서의 객체를 네트워크가 배울 수 있게 한다.  
  2, pooling : pooling을 통해 300x300에서 13x13으로 줄어들었다고 생각해보자 마지막의 분류기가 배울 위치가 300x300에서 13x13으로 줄어듬.. 
  
  

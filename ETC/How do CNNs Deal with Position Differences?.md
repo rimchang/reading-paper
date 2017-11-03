@@ -1,5 +1,7 @@
 # How do CNNs Deal with Position Differences?
 
+https://petewarden.com/2017/10/29/how-do-cnns-deal-with-position-differences/
+
 이미지 인식을 위한 CNN을 공부하던 한 엔지니어가 나에게 재미있는 질문을 던졌다. 이미지안의 다른 위치에 있는 객체들을 어떻게 인식 할 수 있는가? 이러한 질문은 매우 긴 설명이 필요하므로 이러한 글을 적게 되었다.
 
 <img src="https://petewarden.files.wordpress.com/2017/10/cnn-position-0.png?w=768" />

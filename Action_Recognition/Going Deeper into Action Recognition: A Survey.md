@@ -260,9 +260,39 @@ action recognition 방법의 성능은 일반적으로 공개된 데이터셋으
 
 ### 4.2 Recognition result
 
+테이블3 에는 7개의 action dataset에 대한 accuract에 따른 31개의 방법론이 나와 있습니다. accuract는 원본 논문에서 보고 된 것입니다. 각각의 사례를 개별적으로 비교하는 대신 우리는 솔루션의 다양한 구조에 대해 높은 수준의 비교를 제공합니다
+
+##### Various classes of soltuoin
+
+accuracy를 살펴보면 딥러닝과 핸드크레프트 representation에 기반한 방법 모두 잘 수행된다는 것을 알 수 있습니다. 이는 이미지 classfication을 생각했다면 기대하지 못한 관찰이였을 것입니다. 예를들어 stacked FV encdoing of trajectory descriptor의 경우 최신의 딥러닝 모델보다 성능이 좋습니다. 반대로 비슷한 솔루션 (SIFT + FV와 CNN의 비교)의 이미지 classfication에서와 모순됩니다. 이의 여러가지 원인중 하나로는, 데이터의 부족은 무시 될수 없습니다. 이러한 데이터 부족의 지배적인 주제는 pretrained 모델로 부터 성능향상을 얻는 것입니다.
+
+##### State of the art solution
+
+<b>Handcrafted soltion</b> hadcrafted solution에 초점을 맞추면 dense trajectory descriptor에 의해 성능향상을 얻을 수 있습니다. 이 descriptor은 Fisher vector, rank pooling과 같은 방법으로 쉽게 통합될 수 있고 이는 HMDB-51, UCF-101에서 경쟁력있는 결과를 이끌었습니다.
+
+<b>Deep-net solution</b> 딥러닝 솔루션에 주의를 돌리면서 우리는 spatiotemporal network, two-stream network가 다른 구조보다 성능이 뛰어난 걸 발견했습니다. 최근의 이 두 구조에는 3D-conv 필터를 사용합니다. Feichtenhofer, varo의 작업에도 3d covn, pooling이 포함되어져 있습니다. wang의 논문또한 더 깊은 모델이 성능을 향상시키는데 도움이 된다고 제안합니다. 그러나 더 깊은 모델을 학습시키기 위해서는 더욱 엄격한 data augmentation 기술이 요구됩니다.
 
 
+##### FUSION WITH DENSE TRAJECTORIES SEEMS TO ALWAYS HELP.
 
+대부분의 최신 딥러닝 기반 솔루션들은 wang의 관찰 결과 성능향상이 가능합니다. 딥러닝을 통해 만들어진 구조가 handcrafted trajectory descripotr를 통해 보완이 가능합니다. 딥러닝 네트워크(대부분의 경우) 와 trajectory descriptors(RGB, optical flow)가 비슷한 인풋을 받는다는 것을 언급할만 합니다. Simonyan, Zisserman은 spatial gradient에 일부분의 temporal stream filter가 반응한다는 것을 관찰했습니다. 비슷하게 MBH trajectory descriptor는 optical flow frame의 spatial gradient을 사용하여 도출 됩니다.
 
+### 4.3 What algorithmic change to expect in future?
 
+딥러닝 구조로 향하는 다른 컴퓨터 비전에서의 흐름에 따라 action recognition연구에도 딥러닝을 활용하려고 하는 흐름이 주도하고 있습니다. 비디오 데이터로 부터의 네트워크의 학습의 어려움은 새로운 연구의 필요성을 느끼게 합니다. knowledge transfer 이미지 혹은 다른 소스로 부터의 학습된 모델로 성능을 개선 하는 방안에 대한 연구가 필요합니다. 이와 관련되고 덜 연구된 knowledge transfer에 대한 아이디어는 heterogeneous domain adaptation 연구입니다.
 
+action recgonition과 관련된 구조를 고려할때 기억해야 할 키워드는 3D-CONV, temporal pooling, optical flow frame, LSTM 입니다. 앞서 언급된 요소들은 개별적으로 발전했지만 새로운 방법은 성능을 높이기 이해 이들을 합치는 것을 목표로 합니다. 우리는 spatiotemporal learning을 위한 네트워크의 구조를 위한 일반적인 형태가 될 것이라고 고려합니다. 
+
+다른 기억해야 할 것은 성능 향상을 위해 세심한 엔지니어링 접근이 필요합니다. 예를 들어 <span style="color:RED">data augmentation, foveated architecture, distinct frame sampling 전략 등은 필수적으로 나타났습니다.</span>
+
+### 4.4 Bringing action recognition into life
+
+action recognition은 통제된 환경에서의 인식에서 부터 보다 실제에 가까운 환경에서의 솔루션으로 발전해 왔다. 하지만 실제 생활에서 이러한 솔루션을 사용하려면 다음과 같은 깊은 이해가 필요합니다.
+
+- action recognitioh의 실용적 어플리케이션은 joint detection, squence recognition등을 포함하고 있습니다.(detection을 같이하고 ,,, 영상에 대해 적용하는 recognition등을 말하나?) 최근의 연구들은 joint segmentation, action recognition을 같이하고 있습니다.
+
+- 매우 큰 class(많은 label 종류 갯수)에서의 action을 인식하는 대신 실제 어플리케이션에서 유용한 action들로 제약을 두세요. 이를 위해, fine-grained action recognition task는 새로운 문제가 될 것입니다. 그리고 이미 커뮤니티로부터 큰 관심을 받고 있습니다.
+
+### 5. Conclusion
+
+단일 이미지와의 유사성에도 불구하고 비디오 데이터 분석은 훨씬 복잡합니다. 성공적인 비디오 분석 솔루션은 scale, intra-class, noise와 같은 변화를 극복할 필요가 있고 비디오에서의 motion cue를 분석해야 합니다. action recognition은 비디오 분석의 여왕으로 취급될 수 있습니다. action recognition은 다양한 어플리케이션이 존재하여 신체 움직임에 의해 생성되는 복잡한 motion 패턴을 가집니다. 이 논문에서는 우리는 action recognition을 위한 몇몇의 솔루션들을 살펴봅니다. 우리는 먼저 handcrafted representation에 대해 리뷰하고 딥러닝 구조에 집중합니다. 우리는 이 두가지 방법에 대한 비교 분석을 제공합니다.

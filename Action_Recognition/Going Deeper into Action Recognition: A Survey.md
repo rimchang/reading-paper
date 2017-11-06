@@ -260,6 +260,8 @@ action recognition 방법의 성능은 일반적으로 공개된 데이터셋으
 
 ### 4.2 Recognition result
 
+ <img src="https://ilguyi.github.io/assets/2017-06-15/comprehensiveResults.png" />
+
 테이블3 에는 7개의 action dataset에 대한 accuract에 따른 31개의 방법론이 나와 있습니다. accuract는 원본 논문에서 보고 된 것입니다. 각각의 사례를 개별적으로 비교하는 대신 우리는 솔루션의 다양한 구조에 대해 높은 수준의 비교를 제공합니다
 
 ##### Various classes of soltuoin

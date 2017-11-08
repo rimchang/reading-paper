@@ -112,9 +112,10 @@ P3D ResNet (ours)| ImageNet1K| 16 |47.9% |66.4% |87.4%
 ASLAN은 action간의 비디오간의 유사성을 예측하는 action similarity 를 포함한 데이터셋입니다. 이 데이터에는 3697 비디오와 432 action 카테고리를 포함합니다. 우리는 저자들이 제공하는 공식 10-fold cv 전략을 따랐습니다. 또한 YUPENN과 Dynamic Scence은 장면인식을 위한 데이터입니다. YUPENN은 30개의 비디오로 이루어져있고 14개의 scene 카테고리로 구성됩니다. Dynamic Scene은 클래스당 10개의 비디오와 13개의 scene class로 구성됩니다. 이 데이터셋은 표준적인 leave-one-video-out 방법에 따라 train/test 셋을 나눕니다.
 
 테이블3)  
+
+End-to-end CNN architecture with fine-tuning
 Method |Accuracy
 --- | ---
-End-to-end CNN architecture with fine-tuning | 
 Two-stream ConvNet [25] |73.0% (88.0%)
 Factorized ST-ConvNet [29]| 71.3% (88.1%)
 Two-stream + LSTM [37] |82.6% (88.6%)
@@ -123,11 +124,17 @@ Long-term temporal ConvNet [33]| 82.4% (91.7%)
 Key-volume mining CNN [39] |84.5% (93.1%)
 ST-ResNet [4] |82.2% (93.4%)
 TSN [36] |85.7% (94.0%)
-CNN-based representation extractor + linear SVM|
+
+CNN-based representation extractor + linear SVM
+Method |Accuracy
+--- | ---
 C3D [31] |82.3%
 ResNet-152 |83.5%
 P3D ResNet |88.6%
-Method fusion with IDT|
+
+Method fusion with IDT
+Method |Accuracy
+--- | ---
 IDT [34] |85.9%
 C3D + IDT [31] |90.4%
 TDD + IDT [35] |91.5%

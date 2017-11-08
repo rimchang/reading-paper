@@ -114,8 +114,9 @@ ASLAN은 action간의 비디오간의 유사성을 예측하는 action similarit
 테이블3)  
 
 End-to-end CNN architecture with fine-tuning
-Method |Accuracy
---- | ---
+
+Method | Accuracy
+---|---
 Two-stream ConvNet [25] |73.0% (88.0%)
 Factorized ST-ConvNet [29]| 71.3% (88.1%)
 Two-stream + LSTM [37] |82.6% (88.6%)
@@ -126,15 +127,17 @@ ST-ResNet [4] |82.2% (93.4%)
 TSN [36] |85.7% (94.0%)
 
 CNN-based representation extractor + linear SVM
-Method |Accuracy
---- | ---
+
+Method | Accuracy
+---|---
 C3D [31] |82.3%
 ResNet-152 |83.5%
 P3D ResNet |88.6%
 
 Method fusion with IDT
-Method |Accuracy
---- | ---
+
+Method | Accuracy
+---|---
 IDT [34] |85.9%
 C3D + IDT [31] |90.4%
 TDD + IDT [35] |91.5%

@@ -41,7 +41,7 @@ Ji는 비디오에서 spatio-temporal feature를 추출하기 위해 3D conv를 
 모멘텀을 사용한 SGD를 통해 네트워크를 훈련시킵니다. 데이터 증강을 위해 비디오로 부터 랜덤하게 트레이닝 샘플을 생성합니다. 먼저 각 샘플의 temporal position을 uniform 하게 샘플링합니다. 16 프레임의 클립은 이 선택된 temporal point에서 생성됩니다. 만약 비디오가 16프레임 보다 적다면 필요한 만큼 비디오를 반복합니다. 그다음 4개의 코너, 중앙 총 5개의 spatial point를 랜덤하게 샘플링하여 각 포인트에서 multi scale crop을 수행합니다. 스케일 1의 의미는 maximum scale을 의미합니다. (프레임의 width, height중 작은 길이). crop된 프레임의 ratio는 1입니다. 생성된 샘플은 random horizonta flip 합니다. 우리는 또한 각 샘플에서 mean subtraction을 수행합니다. 같은 비디오에서 생성된 샘플은 모두 같은 라벨을 가집니다. Kinetics 데이터셋에서 3D Resnet을 학습시키기 위해 우리는 4개의 GPU를 사용했으며 256 배치를 사용했습니다. weight decay는 0.001으로 하고 momentum은 0.9를 줬습니다. 우리는 learning rate를 0.1에서 시작하여 validation loss가 포화될때 10씩 나누며 총 3번의 decay를 합니다. ActivityNet에 대한 예비실험에서 큰 learning rate와 배치사이즈는 성능에 큰 영향을 끼쳤습니다.
 
 - 정리
-    - ratio를 유지한채 height가 360이 
+    - ratio를 유지한채 height가 360이 되도록함.. Kinetics의 경우는 240으로했네??(코드를 보니깐 그렇다)
     - temporal position을 unifrom 샘플링 각 temporal position에서 16프레임의 비디오를 생성
     - 4개의 코너, 중앙 point에서 multi scale crop을 수행함(정사각형 crop)
     - random horizontal flip

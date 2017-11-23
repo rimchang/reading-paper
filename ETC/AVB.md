@@ -57,7 +57,98 @@ p_D 는 data distribution입니다. 불행하게도 log p_theta(x) 를 계산하
 
 ### 3.1 Derivation
 
-우리의 방법을 도출하기 위해서 위에서 봣던 최적화 문제를 밑과 같이 재구성 합니다.
+우리의 방법을 도출하기 위해서 위에서 봤던 최적화 문제를 밑과 같이 재구성 합니다.
 
+
+<img src="https://latex.codecogs.com/gif.latex?max_%5CTheta%20max_%5CPhi%20E_%7Bp_D%28x%29%7DE_%7Bq_%5CPhi%20%28z%7Cx%29%29%7D%5Blogp%28z%29%20-%20logq_%5CPhi%28z%7Cx%29%20&plus;%20logp_%5CTheta%28x%7Cz%29%5D"/>
+
+qφ(z|x) 를 뉴럴네트워크에 이해 parameterized된 gaussian 같은 것으로 명시적으로 표현 할때 우리는 reparameterization 트릭을 사용해 sgd로 최적화 할 수 있습니다. 불행히도 피규어 2b와 같이 qφ(z|x)를 black-box 로 정의할 때는 불가능 합니다.
+
+우리의 접근방법의 아이디어는 implicit representation을 사용하여 이러한 문제를 우회하는 것입니다.
+
+<img src="https://latex.codecogs.com/gif.latex?logp%28z%29%20-%20logq_%5CPhi%28z%20%7Cx%29" /> (3.2)
+
+추가적인 real-valued discriminative network T(x|z)의 optimal value를 사용하여 이러한 문제를 다룹니다. 더 구체적으로는 보기 위해 given qφ(x|z) 일때의 disciriminator T(x|z) 의 objective 를 살펴봅시다.
+
+<img src="https://latex.codecogs.com/gif.latex?max_T%20E_%7Bp_%7BD%28x%29%7D%7DE_%7Bq_%7B%5Cphi%28z%7Cx%29%7D%7Dlog%5Csigma%20%28T%28x%2Cz%29%29%20&plus;%20E_%7Bp_%7BD%28x%29%7D%7DE_%7Bp%28z%29%7Dlog%281-%5Csigma%28T%28x%2Cz%29%29%29" /> (3.3)
+
+여기서 σ(t) 는 sigmoid-function을 나타냅니다. 직관적으로 T(x,z) 는 p(x)p(z), p(x)q(z|x) 로 부터 독립적으로 샘플링된 샘플들을 구별합니다.
+
+이론적 분석을 간단히 하기 위해서 우리는 T(x|z) 가 x,z의 변수를 가지는 어떠한 함수를 나타낼 수 있다고 가정합니다. 이러한 가정은 종종 non-parametric limit라고 불리며 이는 딥뉴럴 네트워크가 univesal function approxmiator인 것에 의해 정당화 됩니다.
+
+(3,3) 에서의 optimal discriminator T*(x,z)은 (3.2) 에 음수를 취한 것과 동일합니다. 
+
+<b> Propostion 1.</b>
+
+<img src="https://latex.codecogs.com/gif.latex?For%20%5C%2C%20p_%7B%5Ctheta%7D%28x%20%7C%20z%29%20%5C%2C%20and%20%5C%2C%20q_%5Cphi%28z%20%7C%20x%29%20fixed%2C%20%5C%5C%5B12pt%5D%20the%20%5C%2C%20optimal%20%5C%2C%20discriminator%20%5C%2C%20T*%20%5C%2C%20according%20%5C%2C%20to%20%5C%2Cthe%5C%2C%20objective%20%5C%2Cin%20%5C%2C%283.3%29%5C%2C%20is%20%5C%2Cgiven%20%5C%2C%20by%20%5C%2C%20%5C%5C%5B12pt%5D%20T*%28x%7C%20z%29%20%3D%20log%20q_%5Cphi%28z%20%7C%20x%29%20-%20log%20p%28z%29%3A%20%283.4%29" /> 
+
+결국에..discriminator를 최대화 하는 것은 KL-divergence 를 구하게 되네.
+
+proof. 이 증명은 보충자료에 나와있습니다. proposition 1은 (2,4) 를 다음과 같이 쓸 수 있게 해줍니다.
+
+<img src="https://latex.codecogs.com/gif.latex?max_%5Ctheta%20max_%5Cphi%20E_%7Bp_D%28x%29%7DE_%7Bq_%5Cphi%20%28z%7Cx%29%29%7D%5B-T%5E*%28x%2Cz%29%20&plus;%20logp_%5Ctheta%28x%7Cz%29%5D" />  (3.5)
+
+여기서 T*(x,z) 는 (3,3) 을 최대화 한 결과입니다.
+
+(3.5) 를 최적화 하기 위해서 우리는 (3.5) 에서의 theta, phi에 대한 그라디언트를 구해야 합니다. theta에 대한 그라디언트를 구하는 것은 간단하지만 phi에 대한 그라디언트를 구하는 것은 매우 복잡한데 T*(x,z) 또한 phi 그 자체에 의존한 optimization problem의 솔루션이기 때문입니다. 그러나 다음의 proposition은 T*(x,z) 에 대한 그라디언트를 취할 필요가 없다는 것을 보여줍니다.
+
+<b>Propostion 2.</b> 
+
+
+<img src="https://latex.codecogs.com/gif.latex?Eq_%7B%5Cphi%28z%7Cx%29%7D%28%5Cbigtriangledown_%7B%5Cphi%7DT%5E*%28x%2Cz%29%29%20%3D%200%20%3A%20%283.6%29" />  
+
+proof. 이는 보충 자료에서 찾을 수 있습니다.
+
+vae 논문의 reparmeterization 트릭을 사용하면 다음과 같이 나타낼 수있습니다.
+<img src="https://latex.codecogs.com/gif.latex?max_%7B%5Ctheta%5Cphi%7D%20E_%7Bp_D%28x%29%7DE_%7Bq_%5Cepsilon%7D%5B-T%5E*%28x%2Cz_%7B%5Cphi%7D%28z%2C%5Cepsilon%29%29%20&plus;%20logp_%5Ctheta%28x%7Cz_%7B%5Cphi%7D%28z%2C%5Cepsilon%29%29%5D" />  
+
+적절한 함수 z(x,e)와 proposition 1은 theta, phi에 관한 unbiased estimate of gradient를 찾을 수 있게 합니다.
+
+### 3.2 Algorithm
+
+이론적으로 proposition 1,2 는 (2.4) 를 SGD로 바로 구할 수 있게 합니다. 그러나 T*(x,z) 를 항상 최적으로 유지하는 것은 매우 비싼 계산을 요구합니다. 우리는 (3.3), (3.7) 의 optimization problem을 two-player 게임으로 생각합니다. proposition 1,2 은 (2.4) 의 내쉬 균형이 obejective의 stationary point를 생성한다는 것을 보여줍니다.
+
+실무적으로 step size h_i 를 (3.3), (3.7) 에 모두 적용한 SGD를 통해 내쉬-균형을 찾으려고 합니다. 여기서 우리는 뉴럴네트워크 T의 파라미터를 vector psi로 나타냅니다. 이 알고리즘이 수렴한다는 보장은 없더라도 이 알고리즘의 fix point는 (2.4)의 stationary point를 생성합니다.
+
+θ , T 를 고정해놓고 (3.5) 를 최적화 하는 것은 encoder 네트워크가 deterministic function이 됩니다. 이것은 보통의 GAN 에서의 일반적 문제이기도 합니다. 이 때문에 discriminative T 를 계속적으로 Optimal 하게 만드느 것이 중요합니다. 따라서 알고리즘1의 변형은 adversary 네트워크에는 여러번의 SGD 업데이트를 수행하고 generative model에는 한번의 업데이트를 수행합니다. 그러나 다른 언급이 없는 이상 우리는 AVB의 간단한 알고리즘 1 버전을 사용합니다.
+
+### 3.3 Theoretical result
+
+섹션 3.1 에서 우리는 (2.4) 에 대한 variational lower bound를 sgd를 통해 최적화 하는 방법으로 AVB를 도출했습니다. 이 섹션에서는 게임이론의 관점에서 알고리즘 1의 특징에 대해 분석합니다. 다음의 propostion 이 보여주듯이 알고리즘 1의 내쉬-균형은 (2.4) 의 global optima를 생성합니다.
+
+<b>proposition 3.</b>의 증명은 추가자료에 나와 있습니다.
+
+우리의 parameterized q(z|x) 는 q(z|x) 가 latent space에 대한 any probability density가 되도록 합니다.
+
+<b>Corollary 4</b> T를 z,x를 인풋으로 받는 any function 이라고 가정하고 q(z|x) 를 any probability density 라고 하면. (3.3), (3.7) 의 내쉬 균형은 다음과 같다.
+
+1. θ* 가 maximum-likelihood assignment
+2. qφ*(z|x) 가 pθ*(z|x) 와 같아질때.
+3. T*가 x,z 에 대해 pointwise mutual information 일때.
+
+### 4. Adpative contrast 
+
+non-parametric limit(T(x,z) 가 any function이 될 수 있다.)일때 우리의 방법이 정확한 결과를 산출합니다. 실무적으로 T(x,z) 는 학습 과정에서 optimal T*(x,z) 에 충분히 근접하지 못할 수 있습니다. 이 이유는 AVB가 pD(x)qφ(z|x) 를 계산하지만 true pD(x)p(z)와는 근본적으로 다릅니다. 그러나 로지스틱 회귀는 유사한 두 분포를 비교할 때 likelihood-ratio estimation으로 잘 작동하는 것으로 알려져 있습니다.
+
+따라서 estimate의 성능을 향상시키기 위해 우리는 auxiliary conditional probability distribution  rα(z|x) 를 도입합니다. 예를들어 rα(z|x)는 qφ(z |x) 의 mean, variance 와 일치하는 diagonal covariance matrix를 가지는 gaussian이 될 수 있습니다. 이러한 auxilary 분포를 사용하여 (2.4) 의 variational lower bound를 다음과 같이 쓸 수 있습니다.
+
+<img src="https://latex.codecogs.com/gif.latex?E_%7Bp_D%28x%29%7D%5B-KL%28q_%7B%5Cphi%28z%7Cx%29%7D%20%2C%20r_%5Calpha%28z%7Cx%29%29&plus;%20E_%7Bq_%5CPhi%20%28z%7Cx%29%29%7D%5B-logr_%5Calpha%28z%7Cx%29&plus;%20logp_%5Cphi%28x%2Cz%29%5D%20%5D%20%3A%20%284.1%29" />  
+
+우리가 이미 rα(z|x)의 분포를 알기 때문에 (4.1) 의 두번째 텀은 theta, phi의 sgd를 따르게 됩니다. 그러나 섹션3에서 기술한 것과 같이 AVB를 이용해 첫번째 텀을 구할 수 있습니다. rα(z|x)가 q(z|x) 를 잘 근사한다면 rα(z|x)를 이용한 KL-divergence 텀이 원래 보다 작아지며 이는 adversary 학습 방법이 정확한 probability ratio를 배울 수 있게 합니다.
+
+p(z) 대신에 adaptive distribution 인rα(z|x)를 근사하기 때문에 이 기술을 Adaptive Constrast(AC) 라고 부릅니다. 이를 사용하여 generative model, inference model은 maximize 하게 최대화 되게 됩니다.
+
+<img src="https://latex.codecogs.com/gif.latex?E_%7Bp_D%28x%29%7DE_%7Bq_%5CPhi%20%28z%7Cx%29%29%7D%5B-T%5E*%28x%2Cz%29%20-logr_%5Calpha%28z%7Cx%29&plus;%20logp_%5Cphi%28x%2Cz%29%20%5D%20%3A%20%284.1%29" /> (4.2)
+
+T*(x,z) 는 optimal discriminator 이며 rα(z|x)과 q(z|x) 를 구별합니다.
+
+이제 rα(z|x)가 q(z|x)와 mean, variance vector가 일치하는 대각 공분산 행렬을 갖는 가우시안 분포로 가정해 보자. KL-divergence가 reparameterization 하에 invariant함으로 (4.1)의 첫번째 텀 은 다음과 같이 쓸 수 있다.
+
+<img src="https://latex.codecogs.com/gif.latex?E_%7BpD%28x%29%7D%5BKL%28%5Ctilde%7Bq%7D_%5Cphi%28%5Ctilde%7Bz%7D%7Cx%29%2C%20r_0%28%5Ctilde%7Bz%7D%29%29%5D
+" /> (4.3)
+
+여기서 tilde_z 는 normalized vector를 나타내며 r_0(tilde_z) 는 mean 0, variacne 1인 가우시안을 나타냅니다. 이 방법은 adversary(discriminative) 는 오직 q(z|x) 과 unit gaussian 과의 비교만 하면 됩니다. 
+
+실무적으로 우리는 mean, variance vector를 montecarlo estimate 를 사용하여 추정하며 보충자료에서 계산을 효율적으로 하기 위한 네트워크 구조를 설명합니다.
 
 

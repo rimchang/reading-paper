@@ -32,3 +32,32 @@ VAE는 latent variable이 주어졌을때 visible variable을 생성하는 param
 
 
 <img src="https://latex.codecogs.com/gif.latex?logp_%5CTheta%20%28x%29%20%5Cgeq%20-KL%28q_%5CPhi%20%28z%7Cx%29%29%20&plus;%20E_%7Bq_%5CPhi%20%28z%7Cx%29%7D%5Blogp_%5CTheta%28x%7Cz%29%5D" />
+
+우변은 variational lower bound 혹은 ELBO 라고 불리며 q_φ(z | x) = p_θ(z | x) 인  φ가 존재한다면 밑의 수식이 성립합니다.
+
+<img src="https://latex.codecogs.com/gif.latex?logp_%5CTheta%20%28x%29%20%3D%20max_%5CPhi%20-KL%28q_%5CPhi%20%28z%7Cx%29%29%20&plus;%20E_%7Bq_%5CPhi%20%28z%7Cx%29%7D%5Blogp_%5CTheta%28x%7Cz%29%5D" />
+
+하지만 일반적으로 참이 아니며 우리는 (2.2) 수식에서 등호가 아닌 부등식을 얻게 됩니다.
+
+maximum-likelihood 학습을 수행한다면 우리가 최적화해야 할 식은 marginal log-likelihood 입니다.
+
+<img src="https://latex.codecogs.com/gif.latex?E_%7BpD%28x%29%7D%5Blogp_%5CTheta%28x%29%5D" />
+
+p_D 는 data distribution입니다. 불행하게도 log p_theta(x) 를 계산하기 위해서는 p_theata (x,z) 에서 z를 marginal 해야 하며 이는 intractable 합니다. variational bayes 는 (2.1) 의 수식을 이용하여 intractable proble을 최적화 문제로 풀어 냅니다. 이는 다음과 같습니다.
+
+<img src="https://latex.codecogs.com/gif.latex?max_%5CTheta%20max_%5CPhi%20E_%7Bp_D%28x%29%7D%5B-KL%28q_%5CPhi%20%28z%7Cx%29%2C%20p%28z%29%29%20&plus;%20E_%7Bq_%5CPhi%20%28z%7Cx%29%29%7D%5Blogp_%5CTheta%28x%7Cz%29%5D%5D"/>
+
+(2.1) 수식 때문에 우리는 true maximum-likelihood objective의 lower bound를 최적화 하는 것입니다.
+
+자연스럽게 이 lower bound의 성능은 inference model q(z|x) 에 의해 달려있습니다. q(z|x) 가 diagonal covariance matrix를 갖는 gaussian distribution 으로 모델링 되며 각 mean, variance vector는 X를 인풋으로 받는 뉴럴네트워크에 의해 parameterized 된다. 이 모델은 x에 대한 의존성이 매우 유연하지만 이의 z space가 매우 제한되어져 있어 잠재적으로 generative model의 결과를 제한합니다. 실제로 natural image에 표준적인 variational autoencoder를 적용하면 흐린 이미지를 얻는 것이 관찰됩니다
+
+### Method
+
+이 연구에서는 우리는 black-box inference model qφ(z | x) 를 사용하는 것을 보여주고 adversarial training을 활용하여  maximum likelihood assignment θ∗ 를 얻고 true posteriro pθ∗(z | x) 와 가까운 qφ∗(z | x) 을 얻어냅니다. 피규어 2의 왼쪽에는 일반적인 VAE가 보여집니다. 오른쪽은 우리의 flexible black-box inference model을 보여줍니다. Gaussian inference model인 표준적인 VAE와는 다르게 우리는 inference model의 추가적인 인풋으로 noise epsilon_1 을 포함합니다. 이를 통해 inference network가 복잡한 확률 분포를 학습 할 수 있게 합니다.
+
+### 3.1 Derivation
+
+우리의 방법을 도출하기 위해서 위에서 봣던 최적화 문제를 밑과 같이 재구성 합니다.
+
+
+

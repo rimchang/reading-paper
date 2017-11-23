@@ -144,8 +144,7 @@ T*(x,z) 는 optimal discriminator 이며 rα(z|x)과 q(z|x) 를 구별합니다.
 
 이제 rα(z|x)가 q(z|x)와 mean, variance vector가 일치하는 대각 공분산 행렬을 갖는 가우시안 분포로 가정해 보자. KL-divergence가 reparameterization 하에 invariant함으로 (4.1)의 첫번째 텀 은 다음과 같이 쓸 수 있다.
 
-<img src="https://latex.codecogs.com/gif.latex?E_%7BpD%28x%29%7D%5BKL%28%5Ctilde%7Bq%7D_%5Cphi%28%5Ctilde%7Bz%7D%7Cx%29%2C%20r_0%28%5Ctilde%7Bz%7D%29%29%5D
-" /> (4.3)
+<img src="https://latex.codecogs.com/gif.latex?E_%7BpD%28x%29%7D%5BKL%28%5Ctilde%7Bq%7D_%5Cphi%28%5Ctilde%7Bz%7D%7Cx%29%2C%20r_0%28%5Ctilde%7Bz%7D%29%29%5D" /> (4.3)
 
 여기서 tilde_z 는 normalized vector를 나타내며 r_0(tilde_z) 는 mean 0, variacne 1인 가우시안을 나타냅니다. 이 방법은 adversary(discriminative) 는 오직 q(z|x) 과 unit gaussian 과의 비교만 하면 됩니다. 
 

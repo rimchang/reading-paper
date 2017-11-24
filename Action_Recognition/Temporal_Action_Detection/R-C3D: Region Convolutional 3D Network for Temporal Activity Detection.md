@@ -93,7 +93,7 @@ seleceted proposal은 임의의 길이가 될 수 있습니다. 우리는 classf
 
 clasfication, regression task를 jointly하게 최적화합니다. classfication을 위해서는 softmax loss loss, regression은 smooth L1 loss가 사용됩니다.
 
- <img src="https://latex.codecogs.com/gif.latex?LOSS%20%3D%20%5Cfrac%7B1%7D%7BN_%7Bcls%7D%7D%5Csum_i%20L_%7Bcls%7D%28a_i%2C%20a_i%5E*%29%20&plus;%20%5Clambda%20%5Cfrac%7B1%7D%7BN_%7Breg%7D%7D%20%5Csum_i%20a_i%5E*L_%7Bcls%7D%28t_i%2C%20t_i%5E*%29" />
+ <img src="https://latex.codecogs.com/gif.latex?LOSS%20%3D%20%5Cfrac%7B1%7D%7BN_%7Bcls%7D%7D%5Csum_i%20L_%7Bcls%7D%28a_i%2C%20a_i%5E*%29%20&plus;%20%5Clambda%20%5Cfrac%7B1%7D%7BN_%7Breg%7D%7D%20%5Csum_i%20a_i%5E*L_%7Bcls%7D%28t_i%2C%20t_i%5E*%29"/>
 
 
 여기서 N_cls는 batch size, N_reg 는 anchor/proposal segment를 나타냅니다. lambda는 loss trade-off 파라미터이며 1로 설정했습니다. i 는 anchor/proposal segment의 인덱스이며 a_i 는 probability, a_i\*는 gt, t_i 는 anchor segment/proposal에 대하 ㄴ상대적인 offset입니다. t_i\* 는 gt 와 해당하느 segment/proposal에 대한 coordinate transform 입니다. coordinate transform은 다음과 같이 계산됩니다.

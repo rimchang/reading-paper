@@ -40,7 +40,7 @@ supervised activity detection 과는 별도로 최근의 [36] 은 비디오 레�
 
 
 
- <img src="https://ai2-s2-public.s3.amazonaws.com/figures/2017-08-08/c6bdeb45c4df1f0f22ecb05931bef14a447c6ab4/3-Figure2-1.png" />
+ <img src="https://ai2-s2-public.s3.amazonaws.com/figures/2017-08-08/c6bdeb45c4df1f0f22ecb05931bef14a447c6ab4/3-Figure2-1.png"/>
 
 우리는 RC3D 라는 새로운 네트워크를 제안하고 이는 continous 비디오 스트림에서의 activity detection에 적용됩니다. 피규어 2에 나와있는 네트워크 구조는 세가지 요소로 구성됩니다. 
 

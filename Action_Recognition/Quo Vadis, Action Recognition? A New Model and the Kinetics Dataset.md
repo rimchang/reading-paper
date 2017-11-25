@@ -77,6 +77,8 @@ C3D-like 3D Convnet 을 제외한 모든 모델들은 ImageNet pretrained Incept
 
 학습은 표준적인 SGD, momentum 0.9 를 모든 경우에 사용했으며 32 GPU에서의 synchronous parallelization을 통해 학습했습니다. 3D ConvNet은 여러개의 프렝미을 입력받기 때문에 큰 batchsize를 위해선 더 많은 GPU가 필요합니다. 우리는 3D ConvNet에 대해선 64 GPU를 사용했습니다. 35K step 까지는 miniKinetics 를 사용하여 학습하고 110k 까지 Kinetics에 대해 학습했습니다. validation loss가 saturate하면 learning rate를 10씩 감소했습니다. 우리는 mini-Kinetics의 valdiation set을 사용하여 하이퍼파라미터를 튜닝했습니다. UCF-101, HMDB-51에 대해서는 5K step 까지 학습했으며 Kinetics 에서와 비슷한 learning rate decay를 사용하였고 16개의 gpu만을 사용했습니다. 모든 모델들은 Tensorflow로 구현되어졌습니다.
 
+Data augmentation은 깊은 구조에서의 성능에 매우 중요하다고 알려져 있습니다. 학습과정동안 우리는 spatially, temporally random crop을 수행했습니다. 가장 작은 비디오의 면은 256으로 만들고 여기에서 224x224 패치를 random-crop 합니다. temporally 하게는 원하는 프레임수 (64 프레임) 가 되도록 start 프레임을 선택합니다. 짧은 비디오에는 모델의 인풋 프레임 만큼을 충족시킬 때까지 비디오를 단순 반복합니다. 우리는 또한 훈련 도중 left-right random horizontal flip 을 수행합니다. 테스트 타임에는 전체 비디오에 모델이 fully convolutional 하게 적용되며 224x224로 center crop 하며 예측은 평균을 내서 구합니다. 256x256 비디오에 대해서도 실험을 해봤지만 성능의 향상을 관찰하지는 못했습니다. 테스트 타임에도 left-right flip을 사용한다면 좀더 나은 성능이 나을 수 있으며 트레이닝 타임에 photometric같은 추가적인 data augmentation도 나은 성능을 보일 수 있습니다. 
+
 ### 3. The Kinetics Human Action Video Dataset
 
 Kinetics 데이터셋은 activites, event 이 아닌 human action에 초점을 맞춥니다. action class들은 drawing drinking, laughing, punching과 같은 Person action과 hugging, kissing, shaking hands와 같은 person-person action, opening presents, mowinf lawn, washing dish와 같은 person-object action을 포함합니다. 몇몇의 action은 fine-grain 하여 temporal reasoning을 구별하는 것이 필요합니다. 예를들어 다른 종류의 수영을 구별해야 합니다. 다른 action들은 object를 구별하는 것이 필요합니다. 예를들어 다른 종류의 관악기를 연주하는 action이 있습니다.

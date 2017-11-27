@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eb9bfe4f-dcd1-4eeb-a803-132015389035" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Object_Detection/Flow-Guided Feature Aggregation for Video Object Detection.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Action_Recognition/Quo Vadis, Action Recognition? A New Model and the Kinetics Dataset.md" afterPath="$PROJECT_DIR$/Action_Recognition/Quo Vadis, Action Recognition? A New Model and the Kinetics Dataset.md" />
     </list>
     <ignored path="$PROJECT_DIR$/.idea/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -97,12 +97,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Quo Vadis, Action Recognition? A New Model and the Kinetics Dataset.md" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Quo Vadis, Action Recognition? A New Model and the Kinetics Dataset.md" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Action_Recognition/Quo Vadis, Action Recognition? A New Model and the Kinetics Dataset.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="357">
-                <caret line="79" column="578" lean-forward="true" selection-start-line="79" selection-start-column="578" selection-end-line="79" selection-end-column="578" />
+              <first_editor relative-caret-position="388">
+                <caret line="79" column="578" lean-forward="false" selection-start-line="79" selection-start-column="578" selection-end-line="79" selection-end-column="578" />
+                <folding />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Flow-Guided Feature Aggregation for Video Object Detection.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Object_Detection/Flow-Guided Feature Aggregation for Video Object Detection.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="358">
+                <caret line="148" column="457" lean-forward="false" selection-start-line="148" selection-start-column="457" selection-end-line="148" selection-end-column="457" />
                 <folding />
               </first_editor>
               <second_editor />
@@ -114,7 +127,7 @@
         <entry file="file://$PROJECT_DIR$/deeplearning_book/ch4_Numerical Computation.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="405">
+              <first_editor relative-caret-position="133">
                 <caret line="27" column="32" lean-forward="false" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="108" />
                 <folding />
               </first_editor>
@@ -178,6 +191,7 @@
         <option value="$PROJECT_DIR$/ETC/AVB.md" />
         <option value="$PROJECT_DIR$/Action_Recognition/Temporal_Action_Detection/R-C3D: Region Convolutional 3D Network for Temporal Activity Detection.md" />
         <option value="$PROJECT_DIR$/Action_Recognition/Quo Vadis, Action Recognition? A New Model and the Kinetics Dataset.md" />
+        <option value="$PROJECT_DIR$/Object_Detection/Flow-Guided Feature Aggregation for Video Object Detection.md" />
       </list>
     </option>
   </component>
@@ -188,9 +202,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
+    <option name="x" value="-1" />
     <option name="y" value="28" />
-    <option name="width" value="797" />
-    <option name="height" value="838" />
+    <option name="width" value="802" />
+    <option name="height" value="839" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -207,6 +222,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -309,7 +325,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -577,7 +592,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="28" width="797" height="838" extended-state="0" />
+    <frame x="-1" y="28" width="802" height="839" extended-state="4" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -586,8 +601,8 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Execute Anonymous" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4620506" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32907802" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4616402" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -616,7 +631,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Object_Detection/ROLO.md" />
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -1008,17 +1022,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/deeplearning_book/ch4_Numerical Computation.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="405">
-            <caret line="27" column="32" lean-forward="false" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="108" />
-            <folding />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Object_Detection/R-FCN.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -1032,8 +1035,30 @@
     <entry file="file://$PROJECT_DIR$/Action_Recognition/Quo Vadis, Action Recognition? A New Model and the Kinetics Dataset.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="357">
-            <caret line="79" column="578" lean-forward="true" selection-start-line="79" selection-start-column="578" selection-end-line="79" selection-end-column="578" />
+          <first_editor relative-caret-position="388">
+            <caret line="79" column="578" lean-forward="false" selection-start-line="79" selection-start-column="578" selection-end-line="79" selection-end-column="578" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deeplearning_book/ch4_Numerical Computation.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="133">
+            <caret line="27" column="32" lean-forward="false" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="108" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Object_Detection/Flow-Guided Feature Aggregation for Video Object Detection.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="358">
+            <caret line="148" column="457" lean-forward="false" selection-start-line="148" selection-start-column="457" selection-end-line="148" selection-end-column="457" />
             <folding />
           </first_editor>
           <second_editor />

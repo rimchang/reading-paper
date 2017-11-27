@@ -75,7 +75,7 @@ movement target은 그들의 평균, 분산을 통해 normalization 되어 집�
 
 관련된 ground truth box의 movement 패턴을 따르는 N개의 tubelet을 생성하기 위해 우리는 다음과 같은 objective function을 최소화 합니다.
 
- <img src="http://latex.codecogs.com/gif.latex?L%28%7B%5Ctilde%7BM%7D%2C%20M%29%20%3D%20%5Cfrac%7B1%7D%7BN%7D%20%5Csum_%7Bi%3D1%7D%5EN%5Csum_%7Bt%3D1%7D%5Ew%7D%20%5Csum_%7Bk%5Cin%20%7Bx%2Cy%2Cw%2Ch%7D%7D%20d%28%5CDelta%20k_t%5Ei%29%20%5C%2C%5C%2C%5C%2C%5C%2C%20%285%29"/>
+ <img src="http://latex.codecogs.com/gif.latex?L%28%7B%5Ctilde%7BM%7D%2C%20M%29%20%3D%20%5Cfrac%7B1%7D%7BN%7D%20%5Csum_%7Bi%3D1%7D%5EN%5Csum_%7Bt%3D1%7D%5Ew%7D%20%5Csum_%7Bk%5Cin%20%7Bx%2Cy%2Cw%2Ch%7D%7D%20d%28%5CDelta%20k_t%5Ei%29%20%5C%2C%5C%2C%5C%2C%5C%2C%20%285%29%22"/>
 
 
 

@@ -54,16 +54,16 @@ time t=1 의 static proposal 을 b_1^i 라고 합시다. b_1^i 에서 시작하�
 
 우리의 목표는 high recall rate를 가지고 정확하게 object를 tracking 할 수 잇는 tubelet proposal을 생성하는 것입니다. box loaction b_t^i 에서 pooling 된 visual feature를 사용하여 우리는 regression 네트워크 R을 학습시키고 이는 spatial anchor 에 관련된 relative movement를 효율적으로 추정합니다.
 
- <img src="https://latex.codecogs.com/gif.latex?m_1%5Ei%2C%20m_2%5Ei%2C%20%5Ccdots%20%2C%20m_w%5Ei%20%3D%20R%28r_1%5Ei%2C%20r_2%5Ei%2C%20%5Ccdots%20%2C%20r_w%5Ei%29%20%5C%2C%5C%2C%5C%2C%5C%2C%5C%2C%5C%2C%5C%2C%5C%2C%281%29"/>
+ <img src="http://latex.codecogs.com/gif.latex?m_1%5Ei%2C%20m_2%5Ei%2C%20%5Ccdots%20%2C%20m_w%5Ei%20%3D%20R%28r_1%5Ei%2C%20r_2%5Ei%2C%20%5Ccdots%20%2C%20r_w%5Ei%29%20%5C%2C%5C%2C%5C%2C%5C%2C%5C%2C%5C%2C%5C%2C%5C%2C%281%29"/>
 
 relative movement m_w^i는 다음과 같이 계산됩니다. 
 
 
- <img src="https://latex.codecogs.com/gif.latex?%5CDelta%20x_t%5Ei%20%3D%20%28x_t%5Ei%20-%20x_1%5Ei%29/w_1%5Ei%20%2C%20%5C%2C%5C%2C%5C%2C%5C%2C%20%5CDelta%20y_t%5Ei%20%3D%20%28y_t%5Ei%20-%20y_1%5Ei%29/h_1%5Ei%20%5C%5C%5B12pt%5D%20%5CDelta%20w_t%5Ei%20%3D%20log%28w_t%5Ei/w_1%5Ei%29%20%2C%20%5C%2C%5C%2C%5C%2C%5C%2C%20%5CDelta%20h_t%5Ei%20%3D%20log%28h_t%5Ei/h_1%5Ei%29"/>
+ <img src="http://latex.codecogs.com/gif.latex?%5CDelta%20x_t%5Ei%20%3D%20%28x_t%5Ei%20-%20x_1%5Ei%29/w_1%5Ei%20%2C%20%5C%2C%5C%2C%5C%2C%5C%2C%20%5CDelta%20y_t%5Ei%20%3D%20%28y_t%5Ei%20-%20y_1%5Ei%29/h_1%5Ei%20%5C%5C%5B12pt%5D%20%5CDelta%20w_t%5Ei%20%3D%20log%28w_t%5Ei/w_1%5Ei%29%20%2C%20%5C%2C%5C%2C%5C%2C%5C%2C%20%5CDelta%20h_t%5Ei%20%3D%20log%28h_t%5Ei/h_1%5Ei%29"/>
 
 (temporal window W\*4 만큼의 regression을 수행하네.. 첫번째 프레임의 initial proposal box를 가지고 W길이 만큼의 temporal regression을 수행한다.) 이러한 relative movement를 얻고 나면 실제의 box location을 쉽게 추론 가능합니다. 우리는 visual feature (r1, r2, r3,,, rw)^T 를 concat 하고 이를 인풋으로 받는 fc-layer를 사용하여 W\*4 만큼의 movement 값을 예측합니다. 
 
- <img src="https://latex.codecogs.com/gif.latex?%5Bm_1%5Ei%2C%20%5Ccdots%20%2C%20m_w%5Ei%5D%5ET%20%3D%20W_w%5Br_1%5Ei%2C%20%5Ccdots%20%2C%20r_w%5Ei%5D%5ET%20&plus;%20b_w"/>
+ <img src="http://latex.codecogs.com/gif.latex?%5Bm_1%5Ei%2C%20%5Ccdots%20%2C%20m_w%5Ei%5D%5ET%20%3D%20W_w%5Br_1%5Ei%2C%20%5Ccdots%20%2C%20r_w%5Ei%5D%5ET%20&plus;%20b_w"/>
 
 fwx4w 의 차원인 W_w와 4w 차원인 b_w 는 fc-layer에서 학습 가능한 파라미터 입니다.
 
@@ -71,23 +71,23 @@ fwx4w 의 차원인 W_w와 4w 차원인 b_w 는 fc-layer에서 학습 가능한 
 
 movement target은 그들의 평균, 분산을 통해 normalization 되어 집니다.
 
- <img src="https://latex.codecogs.com/gif.latex?%5Ctilde%7Bm_t%5Ei%7D%20%3D%20%28%5Chat%7Bm_t%5Ei%7D%20-%20%5Cbar%7Bm_t%7D%29/%5Csigma_t%2C%20%5C%2C%5C%2C%20for%20%5C%2C%5C%2Ct%20%3D%201%2C%5Ccdots%20%2Cw%20%5C%2C%5C%2C%5C%2C%284%29"/>
+ <img src="http://latex.codecogs.com/gif.latex?%5Ctilde%7Bm_t%5Ei%7D%20%3D%20%28%5Chat%7Bm_t%5Ei%7D%20-%20%5Cbar%7Bm_t%7D%29/%5Csigma_t%2C%20%5C%2C%5C%2C%20for%20%5C%2C%5C%2Ct%20%3D%201%2C%5Ccdots%20%2Cw%20%5C%2C%5C%2C%5C%2C%284%29"/>
 
 관련된 ground truth box의 movement 패턴을 따르는 N개의 tubelet을 생성하기 위해 우리는 다음과 같은 objective function을 최소화 합니다.
 
- <img src="https://latex.codecogs.com/gif.latex?L%28%7B%5Ctilde%7BM%7D%2C%20M%29%20%3D%20%5Cfrac%7B1%7D%7BN%7D%20%5Csum_%7Bi%3D1%7D%5EN%5Csum_%7Bt%3D1%7D%5Ew%7D%20%5Csum_%7Bk%5Cin%20%7Bx%2Cy%2Cw%2Ch%7D%7D%20d%28%5CDelta%20k_t%5Ei%29%20%5C%2C%5C%2C%5C%2C%5C%2C%20%285%29"/>
+ <img src="http://latex.codecogs.com/gif.latex?L%28%7B%5Ctilde%7BM%7D%2C%20M%29%20%3D%20%5Cfrac%7B1%7D%7BN%7D%20%5Csum_%7Bi%3D1%7D%5EN%5Csum_%7Bt%3D1%7D%5Ew%7D%20%5Csum_%7Bk%5Cin%20%7Bx%2Cy%2Cw%2Ch%7D%7D%20d%28%5CDelta%20k_t%5Ei%29%20%5C%2C%5C%2C%5C%2C%5C%2C%20%285%29"/>
 
 
 
  {tilde_M} 과 {M} 은 모두 normalized movement target이며 네트워크의 아웃풋은 다음과 같습니다.
  
-  <img src="https://latex.codecogs.com/gif.latex?d%28x%29%20%3D%20%5Cbegin%7BBmatrix%7D%200.5x%5E2%20%5C%2C%5C%2C%5C%2C%5C%2C%5C%2C%20if%20%5C%2C%20%7Cx%7C%20%3C%201%20%5C%5C%20%7Cx%7C-0.5%20%5C%2C%5C%2C%5C%2C%5C%2C%5C%2C%20otherwise%20%5Cend%7BBmatrix%7D"/>
+  <img src="http://latex.codecogs.com/gif.latex?d%28x%29%20%3D%20%5Cbegin%7BBmatrix%7D%200.5x%5E2%20%5C%2C%5C%2C%5C%2C%5C%2C%5C%2C%20if%20%5C%2C%20%7Cx%7C%20%3C%201%20%5C%5C%20%7Cx%7C-0.5%20%5C%2C%5C%2C%5C%2C%5C%2C%5C%2C%20otherwise%20%5Cend%7BBmatrix%7D"/>
  
 
  
  이는 [5] 에서 사용되는 smoothed L1 loss 입니다. 네트워크의 최종 아웃풋은 실제 realative movement로 다시 바뀌어 집니다.
  
-  <img src="https://latex.codecogs.com/gif.latex?m_t%5Ei%20%3D%20%28%5Cdot%7Bm_t%5Ei%7D%20&plus;%20%5Cbar%7Bm_t%7D%29%20*%20%5Csigma_t%20%5C%2C%5C%2C%5C%2C%5C%2C%5C%2C%20%287%29"/>
+  <img src="http://latex.codecogs.com/gif.latex?m_t%5Ei%20%3D%20%28%5Cdot%7Bm_t%5Ei%7D%20&plus;%20%5Cbar%7Bm_t%7D%29%20*%20%5Csigma_t%20%5C%2C%5C%2C%5C%2C%5C%2C%5C%2C%20%287%29"/>
  
  
  우리의 정의에 따라 만약 static object proposal이 몇몇 object를 포함하고 있다면 이후 레이어에도 같은 정도의 비율로 object를 포함하고 있어야 합니다.

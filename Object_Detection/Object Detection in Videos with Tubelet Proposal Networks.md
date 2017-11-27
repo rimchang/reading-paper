@@ -91,3 +91,87 @@ movement target은 그들의 평균, 분산을 통해 normalization 되어 집�
  
  
  우리의 정의에 따라 만약 static object proposal이 몇몇 object를 포함하고 있다면 이후 레이어에도 같은 정도의 비율로 object를 포함하고 있어야 합니다.
+
+### 3.4. Initialization for multi-frame regression layer
+
+TPN에서의 temporal window W도 매우 중요한 요소입니다. 가장 간단한 모델은 2 프레임 모델입니다. 주어진 프레임에 대해 현재 프레임의 spatial anchor의 feature가 다음 프레임(2 프레임 모델이기 때문에) 의 feature와 concat 되고 다음 프레임의 movement b_1^i 를 추정합니다. 그러나 2-frame 모델은 매우 짧은 temporal window를 사용하기 때문에 생성된 tubelet은 부드럽지 않고 꺾이는 경우가 많습니다. temporal window 를 늘리는 것은 더 많은 temporal information을 사용하게 하고 더 복잡한 movement 패턴을 추정할 수 있게 합니다.
+
+temporal window size W 가 주어지면 이에서 추출되는 feature의 차원은 fw이며 여기서 f는 single frame에서의 feature의 채널입니다. (우리의 세팅에서는 inception_5b에서 추출된 1024 채널의 feature 입니다.) 그러므로 regression layer의 파라미터 사이즈는 fwx4w로써 temporal window size w에 쿼드라틱 하게 늘어나게 됩니다.
+
+temporal window가 큰 경우 파라미터를 랜덤하게 초기화 하는 것은 regression layer를 학습하는데 어려움이 있습니다. 우리는 'block' initialization 방법을 제안하여 2-프레임 모델로 부터 학습된 feature를 사용하여 multi-frame model을 초기화 합니다.
+
+피규어 3에서는 5-프레임 모델을 초기화 하기 위해 어떻게 pre-trained 2-프레임 모델을 사용하는지를 보여줍니다. 수식(2) 의 goal은 항상 (0,0,0,0) (gt box와의 차이가 0이 되는 것이 optimal) 이기 때문에 나중의 프레임의 movement를 추정할 필요가 있습니다. (뭔소리지..?) 2-프레임 모델의 regression layer의 파라미터 사이즈는 2fx4 가 되게 되고 bias term은 4의 차원이 됩니다. 5-프레임 모델의 경우에는 5fx(4x4) 의 weight와 (4x4) 차원의 bias term이 존재합니다. (4 box coordinate x (5-1) 의 차원이다. 맨 처음의 anchor 에 대해서는 이미 box가 주어져 있음.) 본질적으로 우리는 프레임 1,2 의 visual feature를 사용하여 프레임 2의 movement를 추정하고 프레임 1,3 feature를 사용해 프레임3의 movement를 추정합니다. (spatial anchor랑.. i번째 프레임의 feature를 사용하여 relative movement를 구하는 것임으로 근본적으로 그렇다는 것인듯?) 그러므로 5-프레임 모델의 weight는 두개의 sub-matrix로 나눠질 수 있습니다. 그림과 같이 초기화를 하며 bias term은 2-프레임 모델의 bias를 4번 반복합니다. (그림에서의 하얀부분에 대해서 생각을 해보자면 첫번째 열에 대한 해석은 두번째 프레임의 relative movement를 구하기 위해서 필요한 1번째 프레임에 대한 가중치, 2번째 프레임에 대한 가중치, 3번째 프레임에 대한 가중치,,,,5번째 프레임에 대한 가중치로 해석 할 수 있을 것 같다. 그림 처럼 초기화를 한다는 것은 2번째 프레임의 movement를 구하기 위한 2번째 프레임에 곱해지는 가중치를 2-프레임 모델의 파라미터로 초기화 하겠다.)
+
+우리의 실험에서는 먼저 2-프레임 모델을 랜덤 하게 초기화 하여 학습시키고 2-프레임 모델을 multi-프레임 regression layer의 초기값으로 사용합니다.
+
+### 4. Overall detection framework with tubelet generation and tubelet classification
+
+TPN 을 기반으로 하여 우리는 비디오에서의 object detection을 위한 효율적인 프레임워크를 제안합니다. sigle object tracker와 비교하여 이는 VID 데이터셋에서 dense tubelet을 생성하는데 TPN 9 GPU day가 소요되며 이는 detection 성능을 높이기 위해 tubelet proposal 로 부터 temporal information을 활용 할 수 있습니다. 피규어 2에서 볼 수 잇는 바와 같이 우리의 프레임워크는 2개의 네트워크로 구성됩니다. 첫번째는 candidate object tubelet을 위한 TPN 이며 두번째는 CNN-LSTM classfication 네트워크이며 이는 tublet에 속하는 각각의 bounding box의 object 라벨을 예측합니다. (bouding box 마다의 클래스피케이션을 하는게.. 말이되나? 나중에 average를 하나?)
+
+### 4.1. Efficient tubelet proposal generation 
+
+TPN은 temporal window W 내의 static object proposal에 대한 movement를 추정 할 수 잇습니다. 대규모 비디오 데이터 셋에서의 object dtection을 위해선 몇백개의 spatial anchor에 대한 tubelet을 병렬적으로 만들고 각각의 tubelet이 충분한 길이를 가지도록 해야 합니다.
+
+피규어 4 에서 볼 수 있듯이 l의 길이의 tubelet을 생성하기 위해서는 첫번재 프레임의 static object proposal을 spatial anchor로 사용하고 w temporal window를 가지는 TPN을 길이가 l이 될때 까지 반복해야 합니다. 이전 반복의 마지막 location의 추정을 다음 반복의 spatial anchor로 사용됩니다. 이 과정을 통해 임의의 길이를 가지는 tubelet proposal을 생성할 수 있습니다.
+
+N static object proposal이 start frame에 존재한다면 CNN은 이들에 대해 foward 연신을 단 한번만을 수행하면 됩니다. 그래서 몇백개의 tubelet proposal을 효율적으로 생성 가능합니다. (spatial anchor를 구하고.. anchor를 변경하지 않는다. 그렇다면 영상 중간에 새로 나타나는 객체는 어떻게.. 처리하지??)
+
+일반적으로 적용되는 이전의 single object tracker와 비교하여 우리의 제안된 방법은 tubelet을 생성하는데 훨씬 더 빠릅니다. [15] 의 tracking 방법은 단일 객체에 대해 0.5 fps 의 속도를 보고 했습니다. 보통 프레임당 300개의 spatial anchor가 존재하므로 이는 각 프레임당 150sec 가 걸리게 됩니다. 우리의 방법은 프레임당 0.488 sec 가 걸리며 이는 약 300배 빠릅니다. 최근의 single object tracker [9] 와 비교해도 우리의 방법은 6.14 배 빠른 속도를 보입니다.
+
+### 4.2. Encoder-decoder LSTM (ED-LSTM) for temporal classification
+
+길이가 l 인 tubelet proposal을 생성한후 visual feature u_t^1 ~ u_l^i 의 feature를 각각 tubelet의 coordinate를 이용하여 pooling 할 수 있습니다. [15, 7, 14] 와 같은 기존 방법들은 post-processing에 주로 temporal information을 사용하여 detecion 결과를 인접 프레임에 전파하거나 detection score를 temporally smoothing 하였습니다. detection 결과의 temporal consistency는 매우 중요하지만 복잡한 appearance의 변화를 포착하기 위해 tubelet을 사용해야 합니다. 우리는 각각의 tubelet location에서 discriminative spatio-temporal feature(classfication을 위해 사용될 feature?)를 배울 필요가 있습니다. 
+
+피규어 2에서 볼 수 있듯이 제안된 classfication sub-network는 CNN이 포함되어 있어 인풋 이미지에 대한 feature를 추출할 수 있습니다. 각각의 tubelet proposal 에서의 각 time에 해당하는 ROI-pooled classfication feature는 그후 1-레이어의 LSTM의 인풋으로 들어가고 tubelet classfication을 수행하게 됩니다. LSTM은 RNN의 특별한 종류로써 최근들어 spatio-temporal feature를 학습하게 위해 많이 사용되엇습니다. 각각의 LSTM 유닛은 메모리 유닛을 가지고 있어 각 time 마다의 visual information을 기억해 temporal information을 배울 수 있습니다. 
+
+LSTM의 각 time step t 마다의 인풋은 cell state, hidden state , 그리고 현재 time t에 해당하는 classfication feature u_t^i 를 인풋으로 받습니다. LSTM의 start state는 제로로 초기화 되며 각 time 마다의 hidden stat h_t^i 는 fc-layer의 인풋으로 들어가 class confidence를 예측하고 다른 fc-layer를 통해 regression을 수행합니다. vanilla LSTM을 사용함으로써 겪을 수 있는 문제는 initial state 가 처음 몇몇의 프레임의 classfication 결과에 큰 영향을 끼친다는 것입니다. [28]의 seq-to-seq LSTM에 영감을 받아 우리는 encoder-decoder LSTM 구조를 사용합니다. 첫번째 tubelet의 feature는 encoder  LSTM의 인풋으로 들어가고 unrolling 되면서 전체 tublet의 appearance feature를 메모리로 저장하게 됩니다. 그 후 각 t번째 tubelet에 해당하는 feature와 hidden state가 decoder LSTM의 인풋으로 들어가게 되고 last 프레임부터 첫번째 프레임 까지의 reverse input order로 classfication을 수행하게 됩니다. (각 프레임별 term 이 동일하도록 하기 위해!!) 이러한 방법을 통해 과거와 미래의 information을 모두 사용하여 더 좋은 classfication 성능을 달성 할 수 있습니다. all-zero init memory state에 의한 낮은 prediction confidence를 피할 수 있습니다.
+
+### 5. Experiments
+### 5.1. Datasets and evaluation metrics
+
+제안된 프레임워크는 이미지넷의 VID 데이터 셋에서 평가됩니다. 30개의 object 클래스가 존재하며 데이터셋은 세개의 서브셋으로 나눠지며 트레이닝 셋에는 3862개의 비디오, validation 셋에는 55개의 비디오, 테스트 셋에는 937 개의 비디오를 포함합니다. 모든 비디오 프레임 마다의 ground truth가 라벨링 되어 있으며 테스트 셋에 대한 라벨링은 공개되어 있지 않으므로 일반적인 관행인 validation 셋에 대한 결과를 보고합니다. 30개의 클래스에 대한 map가 evalution metric으로 사용됩니다.
+
+또한 우리의 시스템은 YouTubeObject 데이터셋에 대해 평가하고 이는 object localization task에 대한 데이터입니다. YTO 데이터셋은 10개의 클래스로 이루어져 있으며 이 10개는 VID 데이터셋의 sub-label set 입니다. YTO 데이터셋은 비디오에 대해 단 하나의 ground-truth 만이 라벨링 되어 있어 이를 오직 evaluation으로만 사용합니다. evaluatation metric은 CorLoc 를 사용하고 이는 ground truth box와 0.5 이상의 IOU를 갖는 recall rate를 말합니다.
+
+### 5.2. Base CNN model training
+
+우리는 BN을 사용한 GoogleNet을 우리의 베이스 CNN 모델로 선택하였고 우리의 TPN과 CNN-LSTM 모델이 weight를 공유하지 않게 하였습니다. 이 모델은 는 ImageNet classfication으로 부터 pre-train 되었고 VID 데이터 셋에 대해 fine-tuning 을 수행했습니다. static object proposal 은 VID 데이터로 부터 학습된 RPN으로 부터 생성되며 per-frame당 recall rate는 각 프레임당 300개의 box에 대해 95.92% 를 보입니다.
+
+Fast RCNN 프레임워크와 결합하기 위해 우리는 마지막 모듈 'inception 5d'가 아닌 'inception 4d' 뒤에 ROI-pooling을 수행하였습니다. 이는 마지막 모듈은 32 down-sampling에 해당되어 receptive field가 715 pix가 됩니다. 이는 discriminative feature를 위해서는 너무 큰 receptive field 이기 때문입니다. ROI-pooling 의 사이즈는 14x14 이며 우리는 이후 마지막 inception module을 적용하고 마지막에 global average pooling을 적용합니다. 이 후 tubelet proposal, classfication, bounding box regression을 위한 fc-layer를 추가합니다.
+
+4개의 titan x gpu를 사용해 200k iteration을 학습하였고 각 iteration 마다 하나의 gpu에 2개의 이미지의 32 ROI 를 통해 학습합니다. (ROI 사이즈가 너무 작은거 아닌가? proposal region은 300개고.. 마지막 batch가 32개라는 건가?) 초기 learning rate는 5x10^-4 이며 60k 마다 10씩 감소합니다. 모든 BN layer는 fine-tune 동안 고정합니다. DET 데이터에 대해 fine-tuning 후에 DET에 대해선 50.3% map를 달성했습니다. 같은 하이퍼 파라미터를 사용하여 VID 데이터에 대해 90.000 iteration 동안 학습하였고 VID validation set에 대해 63.0% map를 달성했습니다.
+
+### 5.3. TPN training and evaluation
+
+fine-tuning된 모델을 사용하여 VID 데이터에 대해 2-프레임 모델을 먼저 학습시킵니다. TPN이 gt object의 움직임에 따른 tubelet을 추정해야 하기 때문에 우리는 static proposal이 IOU가 0.5 보다 높은 anchor를 spatial anchor로 선택합니다. IOU가 0.5 보다 낮은 proposal들은 학습 동안에 사용되지 않습니다. 테스트 타임에는 매번 20 프레임마다의 모든 static object가 spatial anchor로 사용됩니다. 모든 tubelet은 20-프레임의 길이를 가집니다. negative static proposal 에서 시작한 것들은 background region 에 계속 남아 있게 되거나 근처의 프레임에서 object가 나타나면 그들을 track 하게 됩니다.
+
+우리는 다양한 window size w에 대해 실험을 진행하였고 섹션4에 기술된 초기화 메소드를 사용했습니다. gt movement 을 gt label을 통해 구할 수 있으므로 각각의 positive static proposal은 그와 관련된 gt movement 와의 이상적인 tubelet proposal을 가집니다. 생성된 tubelet에 대한 세가지의 메트릭을 사용하였고 이는 테이블 1에 나와있습니다. 하나는 mean absolute pixel difference(MAD) 이며 이는 예측된 좌표와 ground truth 사이의 픽셀 값을 비교합니다. 두번째는 mean relative pixel differnece(MRD) 이며 gt와의 x좌표 차이/width, y좌표차이/height를 보고합니다. 세번재는 mean itersection-over-union (IOU) 를 보고합니다.
+
+테이블을 살펴보면 2-프레임 베이스라인의 MAD 15.50 MRD 0.07 IOU 0.79 를 볼수 있으며 5-프레임 모델의 경우 랜덤하게 초기화를 하는 경우 2-프레임 모델에 비해 성능이 떨어집니다. 이는 5-프레임 모델의 파라미터의 사이즈가 2-프레임 모델보다 10배정도 높아 학습을 하는 것이 어려워지기 때문인 것으로 보입니다. 그러나 우리가 제안한 기술을 통해 multi-frame regression layer를 2-프레임 모델로 초기화 하면 2-프레임 모델보다 더 나은 성능을 보이며 이는 더 큰 temporal context 때문으로 생각됩니다.
+
+temporal window W가 계속적으로 커지기 되면 제안된 초기화 기법을 사용해도 성능이 감소합니다. 이는 temporal window가 너무 커지게 되면 오브젝트의 움직임이 너무 복잡하게 되어 TPN이 근처의 프레임과의 visual correspondence를 복구하지 못하기 때문으로 보입니다. 이후의 실험에서는 우리는 5-프레임 TPN을 사용하여 20-프레임 tubelet을 생성합니다. 
+
+우리가 제안한 모델과 RNN 베이스 라인을 비교하자면 tubelet regression layer를 1024 hidden의 RNN으로 대체했고 4 motion target을 예측합니다. 테이블 1에서 볼 수 있듯이 RNN 베이스라인의 성능은 우리보다 좋지 않습니다.
+
+### 5.4. LSTM Training
+
+tubelet proposal을 생성한 뒤에 제안된 CNN-LSTM 모델이 feature를 추출합니다. 이 feature의 차원은 각 타임마다 1024가 됩니다. 
+
+LSTM은 1024개의 cell unit과 1024 hidden state를 가집니다 매번 iteration 마다 4개의 비디오에서의 128 tublet이 랜덤하게 선택되어 미니배치를 구성합니다. CNN-LSTM은 SGD를 통해 최적화 되며 momentum 0.9 로 20k iteration 동안 학습됩니다. 파라미터의 분산은 0.0002가 되도록 초기화 하고 learning rate는 0.1 2k iteration 마다 0.5씩 낮아지게 됩니다.
+
+### 5.5. Results
+
+<b>Baseline method</b> 가장 기본적인 베이스라인은 Fast RCNN static detector 이며 매 프레임 마다의 static proposal을 필요로 하며 temporal information을 사용하지 않습니다. 이 베이스라인은 우리가 사용한 RPN과 똑같은 static proposal을 사용하며 Fast R-CNN 모델을 인셉션을 백본으로 사용했습니다. 우리의 tubelet regression target의 효율을 검증하기 위해 gt의 location을 spatial anchor로 사용하여 tubelet proposal을 수행하였습니다.(?뭐라는지 모르겠음) 그 후 우리는 vanilla LSTM을 적용하고 이를 LocTubelet+LSTM 이란 이름으로 결과를 보고합니다. 우리의 tubelet proposal 방법은 MoiveTubelet 이며 우리는 KCF[10] 이라는 최신의 single-object trackin 방법과 비교합니다. CNN-LSTM classfication을 위해 vanilla LSTM과 encoder-decoder LSTM을 비교합니다. 
+
+<b>Results on ImageNet VID dataset. </b>  VID데이터에 대한 결과는 테이블2,3 에 나와있습니다. 이미지넷에서의 detecion task의 규칙에 따라 우리는 validation set에 대한 결과를 보고 합니다. VID에 fine-tune된 Fast RCNN 베이스 라인은 0.63% 을 달성하였고 bset single model[14]의 성능과 비교하자면 VID 데이터셋에 0.615%를 얻어 1.5%의 성능향상이 있었습니디ㅏ.
+
+베이스라인 static detector를 TPN에 바로 적용하고 temporal window 5의 결과를 갖는 map는 0.623% 을 얻었습니다. 기존의 최신의 tracker[10] 과 비교하자면 이는 오직 0.567% map을 얻었습니다. KCF tracker는 단일 오브젝트를 추적하는데 50fps가 걸리지면 이 베이스 라인 detector는 6초가 걸리게 됩니다.
+
+vanilla LSTM에 tubelet proposal을 적용하면 0.67% map를 얻을 수 있고 이는 5.5%의 성능 향상을 가져왔고 static 베이스 라인에 비해 4.8% 향상입니다. 이는 LSTM은 appearance , temporal feature를 배울수 있어 classfication accuracy를 높일 수 있다는 것을 보여줍니다. 특히 'whale' 클래스에 대해서는 25% 의 큰 향상을 보였는데 고래는 물에서 떠올랐다가 다시 가라않습니다. detector는 이들을 판별하기 위해 전체 process를 관찰해야 합니다.
+
+bounding box regression tubelet proposal과 비교하자면 우리의 tublet proposal 모델은 2.5% 의 향상을 보였고 temporal information을 더 잘 활용해 더 다양한 tubelet을 생성합니다. EM-LSTM 을 사용한 결과 0.68% 의 성능을 보였고 기본 LSTM보다 0.6% 의 성능 향상을 보였고 절반이상의 클래스에 대해 성능향상을 보였습니다. EM LSTM이 모든 클래스의 tubelet 베이스라인 결과보다 좋은 성능을 보였고 이는 detection 결과의 consistently 한 것을 향상시켰다는 의미입니다. VID에 대한 결과는 피규어5에 나와있으며 bodung box는 객체에 잘 붙어 있으며 긴 시간동안 여러개의 객체를 추적 할 수 있습니다.
+
+<b>Localization on the YouTubeObjects dataset. </b> 추가적으로 YTO 데이터셋에 대해 평가를 진행했습니다. 각각의 테스트 비디오마다 우리는 tublet proposal을 생성하고 EM LSTM 을 적용하여 각 tublet을 판별합니다. 각 테스트 클래스마다 우리는 테스트 프레임에서 가장 maximum detection score를 가지는 tubelet box를 선택합니다.
+
+
+

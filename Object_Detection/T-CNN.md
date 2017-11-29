@@ -72,7 +72,7 @@ provided data track을 위해 우리는 VGG, GoogleNet을 BN을 사용하여 학
 
 각 프레임마다 우리는 수백개의 region proposal을 가지고 있으며 각각은 30개의 클래스의 detection score를 갖습니다. 각 비디오 클립마다 우리는 모든 detection score를 내림차순으로 정렬합니다. (비디오 클립안의 모든 박스에 대해서) 임계값을 넘는 detection score를 가지는 class를 high-confidence class로 할당하고 나머지를 low-confidence class로 할당합니다. high-confidecne class의 detection score는 그대로 유지하고 low-confidence class의 socre는 상수를 뺌으로써 억제합니다. threshold와 빼줄 값은 validation set을 통해 찾게 됩니다.
 
-<b>Motion-guided propagation</b> (MGP). </b> multi-context suppression 과정은 false positive detection을 상당히 감소 시킬 수 있지만 false negative(negative로 예측했는데 틀림, 즉 foreground를 다른 object나 back ground로 예측)를 감소 시킬 수는 없습니다. false negative는 일반적으로 몇가지 이유 때문에 발생합니다. 1) object 를 충분히 덮을 수 있는 region proposal이 존재하지 않는다 2) bad pose, motion blur 때문에 detection score가 낮아진다.
+<b>Motion-guided propagation (MGP). </b> multi-context suppression 과정은 false positive detection을 상당히 감소 시킬 수 있지만 false negative(negative로 예측했는데 틀림, 즉 foreground를 다른 object나 back ground로 예측)를 감소 시킬 수는 없습니다. false negative는 일반적으로 몇가지 이유 때문에 발생합니다. 1) object 를 충분히 덮을 수 있는 region proposal이 존재하지 않는다 2) bad pose, motion blur 때문에 detection score가 낮아진다.
 
 이러한 false negative는 인접한 프레임에 더 많은 detection을 추가하여 극복 될 수 있습니다. 이는 인접한 프레임이 매우 높은 상관관계가 있기 때문입니다. detection 결과는 spatial location, detectionsocre 모두에 큰 상관을 가지고 있습니다. 예를 들어 object가 멈춰있거나 느리게 움직이는 경우 이 object는 인접한 프레임의 비슷한 위치에 나타나야만 합니다. 이러한 이유 때문에 detection 결과인 box와 score를 인접한 프레임에 전달하여 detection 결과를 향상시키고 false negative를 주이고자 합니다.
 

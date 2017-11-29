@@ -35,8 +35,8 @@
         <entry file="file://$PROJECT_DIR$/Object_Detection/T-CNN.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="80">
-                <caret line="74" column="32" lean-forward="false" selection-start-line="74" selection-start-column="32" selection-end-line="74" selection-end-column="32" />
+              <first_editor relative-caret-position="-1450">
+                <caret line="74" column="28" lean-forward="false" selection-start-line="74" selection-start-column="28" selection-end-line="74" selection-end-column="28" />
                 <folding />
               </first_editor>
               <second_editor />
@@ -822,8 +822,8 @@
     <entry file="file://$PROJECT_DIR$/Object_Detection/T-CNN.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="80">
-            <caret line="74" column="32" lean-forward="false" selection-start-line="74" selection-start-column="32" selection-end-line="74" selection-end-column="32" />
+          <first_editor relative-caret-position="-1450">
+            <caret line="74" column="28" lean-forward="false" selection-start-line="74" selection-start-column="28" selection-end-line="74" selection-end-column="28" />
             <folding />
           </first_editor>
           <second_editor />

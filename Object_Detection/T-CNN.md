@@ -46,7 +46,7 @@ VID task는 DET 테스크와 매우 비슷합니다. VID task는 detect해야할
 
 <b>Multi-context suppression.</b> 이 과정은 먼저 still-image detection score를 내림차순으로 정렬합니다.(전체 비디오에 대해서) 높은 순위의 detection score를 가지는 class는 high-confidence class로 취급되며 다른 것들은 low-confidence class로 취급됩니다. low-confidence를 가지는 detection score들은 false positive를 줄이기 위해 억제됩니다.
 
-<b>Motion-guided Propagation<b> still-image object detection에서 몇몇 object은 특정한 프레임에서 잘못 분류되지만 인접 프레임에서는 검출 될 수 있습니다. motion-guided propagation은 optical flow와 같은 motion information을 사용하여 detection result를 인접한 프레임으로 locally propagate하며 false negative를 줄일 수 잇습니다. (false negative : nagative로 예측했는데 틀렸다. 즉 label 이 True인데 false로 예측해버림.)
+<b>Motion-guided Propagation</b> still-image object detection에서 몇몇 object은 특정한 프레임에서 잘못 분류되지만 인접 프레임에서는 검출 될 수 있습니다. motion-guided propagation은 optical flow와 같은 motion information을 사용하여 detection result를 인접한 프레임으로 locally propagate하며 false negative를 줄일 수 잇습니다. (false negative : nagative로 예측했는데 틀렸다. 즉 label 이 True인데 false로 예측해버림.)
 
 <b>Temporal tubelet re-scoring.</b> still-image detector의 high-confidence detection 으로 부터 시작하여 우리는 tracking 알고리즘을 적용해 tubelet을 얻습니다. tubelet은 detection score에 따라 positive/negative sample로 판별되어 집니다. positive score는 higer range로 매핑되고 negative socre는 lower range로 매핑되므로 score margin을 높일 수 있습니다. (뭔소리지. 0.5 이상은 positiv, 0.1~0.5는 negative 뭐 이런식으로 했다는 건가?)
 

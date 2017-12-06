@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="eb9bfe4f-dcd1-4eeb-a803-132015389035" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Object_Detection/R-FCN.md" afterPath="$PROJECT_DIR$/Object_Detection/R-FCN.md" />
-    </list>
+    <list default="true" id="eb9bfe4f-dcd1-4eeb-a803-132015389035" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.idea/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,12 +16,25 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="R-FCN.md" pinned="false" current-in-tab="true">
+      <file leaf-file-name="R-FCN.md" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Object_Detection/R-FCN.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="170">
-                <caret line="118" column="119" lean-forward="false" selection-start-line="118" selection-start-column="119" selection-end-line="118" selection-end-column="119" />
+              <first_editor relative-caret-position="95">
+                <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="91" />
+                <folding />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Deformable Convolutional Networks.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Object_Detection/Deformable Convolutional Networks.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="215">
+                <caret line="58" column="38" lean-forward="false" selection-start-line="58" selection-start-column="38" selection-end-line="58" selection-end-column="38" />
                 <folding />
               </first_editor>
               <second_editor />
@@ -91,6 +102,7 @@
         <option value="$PROJECT_DIR$/Object_Detection/T-CNN.md" />
         <option value="$PROJECT_DIR$/Object_Detection/seq_nms.md" />
         <option value="$PROJECT_DIR$/Object_Detection/R-FCN.md" />
+        <option value="$PROJECT_DIR$/Object_Detection/Deformable Convolutional Networks.md" />
       </list>
     </option>
   </component>
@@ -455,16 +467,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Object_Detection/R-FCN.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="0">
-            <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -857,8 +859,19 @@
     <entry file="file://$PROJECT_DIR$/Object_Detection/R-FCN.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="170">
-            <caret line="118" column="119" lean-forward="false" selection-start-line="118" selection-start-column="119" selection-end-line="118" selection-end-column="119" />
+          <first_editor relative-caret-position="95">
+            <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="91" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Object_Detection/Deformable Convolutional Networks.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="215">
+            <caret line="58" column="38" lean-forward="false" selection-start-line="58" selection-start-column="38" selection-end-line="58" selection-end-column="38" />
             <folding />
           </first_editor>
           <second_editor />

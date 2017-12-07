@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eb9bfe4f-dcd1-4eeb-a803-132015389035" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Object_Detection/Deformable Convolutional Networks.md" afterPath="$PROJECT_DIR$/Object_Detection/Deformable Convolutional Networks.md" />
     </list>
     <ignored path="$PROJECT_DIR$/.idea/" />
@@ -36,8 +35,8 @@
         <entry file="file://$PROJECT_DIR$/Object_Detection/Deformable Convolutional Networks.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="335">
-                <caret line="199" column="276" lean-forward="true" selection-start-line="199" selection-start-column="276" selection-end-line="199" selection-end-column="276" />
+              <first_editor relative-caret-position="185">
+                <caret line="200" column="48" lean-forward="false" selection-start-line="200" selection-start-column="48" selection-end-line="200" selection-end-column="48" />
                 <folding />
               </first_editor>
               <second_editor />
@@ -899,8 +898,8 @@
     <entry file="file://$PROJECT_DIR$/Object_Detection/Deformable Convolutional Networks.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="335">
-            <caret line="199" column="276" lean-forward="true" selection-start-line="199" selection-start-column="276" selection-end-line="199" selection-end-column="276" />
+          <first_editor relative-caret-position="185">
+            <caret line="200" column="48" lean-forward="false" selection-start-line="200" selection-start-column="48" selection-end-line="200" selection-end-column="48" />
             <folding />
           </first_editor>
           <second_editor />

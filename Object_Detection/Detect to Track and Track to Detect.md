@@ -1,4 +1,4 @@
-# Detect to Track and Track to Detect Christoph
+# Detect to Track and Track to Detect
 
 ## Abstact
 

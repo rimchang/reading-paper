@@ -65,6 +65,17 @@ figure 2에서 볼 수 있듯이 네트워크의 non-linearity는 오직 개별 
 Nair and Hinton은... relu가 특히 image-related task에 효과적이라고 한다 한번 찾아보자.
 
 
+# Learning Deep Architectures for AI
 
+## 13.2 Why Sparse Representations and Not Dimensionality Reduction
 
+우리는 이 논문에서 뇌와 마찬가지로 고정된 크기의 representation을 가지려고 한다면, sparse representation이 example마다 variable size representation을 가지도록 하는 것보다 더 효율적이라고 주장합니다. learning theory에 따르면 좋은 일반화를 얻기 위해선 전체 train set을 encode하는데 필요한 총 bits 수가 train set 크기에 비해 더 작아야 한다고 말합니다. 많은 도메인에서 서로 다른 example들은 서로 다른 information 정보를 가지고 있습니다. 이것이 image compression 알고리즘이 보통 다른 image에 대해서 다른 갯수의 bits를 통해 encode하는 이유입니다. (비록 그들이 보통 같은 차원을 가질 지라도?? )
+
+반면에 PCA, ICA와 같은 linear 차원축소, LLE, Isomap과 같은 non-linear 차원축소 알고리즘은 각기 다른 example을 같은 크기의 low-dimensional space로 매핑합니다. 위와 같은 논의에 따라서는 각각의 example을 variable-length representation으로 매핑하는 것이 더 효율적입니다. 주장을 간단히 하기 위해, binary vector representation이라고 가정해 봅시다. 만약 우리가 각각의 example을 고정된 길이의 representation으로 매핑한다고 생각해봅시다. 이러한 representation에서의 가장 좋은 솔루션은 대부분의 example을 표현할 수 있는 자유도를 representation이 가지는 것입니다. 반면 고정된 bits vector를 작은 사이즈의 variable-code로 압축하는 것으로 보다 많은 exmaple을 표현할 수 있습니다. 이제 우리는 두가지 종류의 representation을 가졌습니다. 하나는 fixed-length를 가지며 하나는 보다 smaller하며 variabel-size length를 가집니다. 이 variable size vecotr는 fixed-length에서의 압축 단계를 거쳐 얻어진 것입니다. 예를 들어 만약 우리의 fixed-length repressentation이 매우 높은 확률로 0 이된다면 (sparsity condition) 이들을 fixed-length vector로 압축하는 것은 매우 쉬운 일일 것입니다.(average by amount of sparsity)
+
+sparsity가 선호되는 또 다른 이유는 fixed-length representation이 soft-max linear unit과 같은 또다른 추가 처리를 위한 입력으로 사용되므로 이는 해석이 쉬워야 한다는 것입니다. 매우 높게 압축된 encoding은 보통 완벽하게 얽혀 있으므로 모든 bits를 살펴보지 않는 이상 bits의 부분집합에 대한 해석을 할 수 없습니다. 대신 fixed-length sparse representation이 각각의 bits or bits의 부분집합이 해석가능하길 원합니다. 즉 각각의 bits가 입력의 의미있는 부분에 해당하고 데이터의 변동을 포착할 수 있기를 원합니다. 음성 신호를 예로 들면 몇몇 bits가 발화자의 특징을 encode하고 다른 bits가 발음에 대한 일반적인 feature를 encode한다고 생각해 봅시다. 이러한 bits를 가지고는 데이터에 대한 변동에 대한 factor를 풀어헤칠 수 있으며 factor의 부분집합들을 가지고도 충분히 어떠한 예측과 관련된 task를 수행할 수 있습니다.
+
+spare representation에 대한 다른 정당화는 Ranzator가 제안하였습니다. 이러한 관점에서는 학습된 representation이 sparsity와 같은 다른 제약조건이 있는 경우에, partition functtion이 명시적으로 최대화 되지 않거나 근사적으로 최대화 되는 경우에도 우수한 모델을 얻을 수 있는 방법을 설명합니다.auto-associator(auto-encoder like한건가?) 가 배운 representation이 sparse하다면 이러한 것은 모든 인풋 패턴들을 잘 reconstruction할 수 없습니다. train set에서의 reconstruction error를 줄이기 위해 이러한 auto-associator는 데이터 분포에 대한 통계적 일반성을 포착해야만 합니다. 첫번째로 Ranzato는 free energy를 reconstruction error의 형태로 연결합니다.(reconstruction error가 sum의 형태가 아닌 maximizing 형태일때?) 이러한 경우 reconstruction error를 줄이는 것은 free energy의 양을 줄이는 것이 됩니다. 분모(partition function) 이 모든 가능한 인풋에서의 분자의 합이므로 우리는 대부분의 인풋 구성에 대해 reconstruction error를 높게 만들것입니다.(?뭔소리야?). 이는 encoder(인풋을 representation으로 매핑하는 사상) 이 입력 패턴의 모든 가능성을 나타낼 수 없도록 제약을 주면 됩니다. (대부분의 가능한 인풋 패턴에 대해 reconstruction error가 높은 경우?)
+
+이를 위한 하나의 접근 방법은 Ranzato에 의해서 이루어진 representation에 sparsity penalty를 주는 것입니다. 이는 training criterion에서 이뤄질 수 있습니다. 이러한 방법에서는 log-likelihood의 수식에서 pratition function과 관련된 그라디언트는 완변히 무시되고 이는 hidden unit code에 대한 sparsity penalty로 대체됩니다. 흥미롭게도 이러한 아이디어는 RBM의 학습과정에 도움을 줄 수 있고 이는 log of partition function에 대한 gradient의 estimator의 근사로만 사용됩니다. 만약 우리가 hidden representation에 sparsity 패널티를 추가하게 되면 우리는 근사에 대한 약점을 보완할 수 있습니다. 이는 가장 가능할만한 input configuration의 free energey를 증가시킴으로써 가능하며 input example의 Contrastive divergence of negative phase로 부터 얻어진reconstructed neighbors의 free engergy를 증가시킵니다.
 
